@@ -23,6 +23,7 @@ dataset_train.isnull().sum()
 dataset_train.Pclass = dataset_train.Pclass.astype('category')
 
 # View the Pclass distribution
+plt.figure(1)
 Pclass_plot = sns.countplot(
     x='Pclass', data=dataset_train, palette="Pastel1_r")
 
@@ -31,14 +32,15 @@ dataset_train['Survived'] = dataset_train['Survived'].replace(
     0, 'No')
 dataset_train['Survived'] = dataset_train['Survived'].replace(
    1, 'Yes')
+plt.figure(2)
 sns.countplot(x='Survived', hue='Sex', data=dataset_train)
 
 # View the Sex distribution
 survived_count = dataset_train['Sex'].value_counts()
 labels = 'Male', 'Female'
+plt.figure(3)
 plt.pie(x=survived_count, labels=labels, autopct='%1.1f%%',
         colors=['lightcoral', 'lightskyblue'])
-plt.show()
 
 # View the Embarked distribution. (We rename the values of the variable).
 dataset_train['Embarked'] = dataset_train['Embarked'].replace('C', 'Cherbourg')
@@ -46,13 +48,16 @@ dataset_train['Embarked'] = dataset_train['Embarked'].replace(
     'Q', 'Queenstown')
 dataset_train['Embarked'] = dataset_train['Embarked'].replace(
     'S', 'Southampton')
+plt.figure(4)
 sns.countplot(x='Embarked', data=dataset_train)
 
 # View the Age distribution
+plt.figure(5)
 sns.distplot(dataset_train.Age, bins=20)
 
 # View the Fare distribution
 sns.set_style('darkgrid')
+plt.figure(6)
 sns.distplot(dataset_train.Fare)
 
 # Check for independence between variables sex and survived
@@ -107,10 +112,12 @@ cnf_matrix
 
 # Plot of predicted probabilities of survival vs actual survival
 y_pred_prob = rfe.predict_proba(x_train)[:, 1]
+plt.figure(7)
 plt.scatter(y_pred_prob, y_train, s=10)
 plt.xlabel('Predicted Chance Of Survival')
 plt.ylabel('Actual Survival')
 plt.tight_layout()
+
 plt.show()
 
 print("Accuracy:", metrics.accuracy_score(y_train, y_pred))
